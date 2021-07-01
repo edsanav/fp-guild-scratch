@@ -9,7 +9,8 @@ object Dependencies {
     val kindProjector    = "0.13.0"
 
     val scalaCheck    = "1.15.1"
-    val scalaTest     = "3.2.3"
+    val scalaTest     = "3.2.9"
+    val scalaTestPlus = "3.2.9.0"
   }
 
   object Libraries {
@@ -27,6 +28,8 @@ object Dependencies {
     // Test
     val scalaCheck    = "org.scalacheck"    %% "scalacheck"      % Versions.scalaCheck
     val scalaTest     = "org.scalatest"     %% "scalatest"       % Versions.scalaTest
+    val scalaTestPlus = "org.scalatestplus" %% "scalacheck-1-15" % Versions.scalaTestPlus
+
   }
 
 

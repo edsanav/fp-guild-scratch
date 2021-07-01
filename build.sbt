@@ -15,7 +15,9 @@ lazy val root = (project in file("."))
       compilerPlugin(Libraries.betterMonadicFor),
       Libraries.cats,
       Libraries.catsEffect,
-      Libraries.scalaCheck
+      Libraries.scalaCheck,
+      Libraries.scalaTest,
+      Libraries.scalaTestPlus
     )
   )
 

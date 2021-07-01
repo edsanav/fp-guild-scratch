@@ -9,7 +9,7 @@ object rosalind {
 
   def run(args:List[String]):IO[ExitCode] = {
     val result = args match {
-      case "ex1"::input::_ => exercise1(input)
+      case "ex1"::input::_ => exercise1(input).map(_.show)
       case _ => Left("Invalid input")
     }
     result match  {
@@ -31,11 +31,11 @@ object rosalind {
 
   implicit val compShow: Show[Composition] = (t: Composition) => s"A: ${t.A} C: ${t.C}, G: ${t.G}, T:${t.T}"
 
-  def exercise1(input:String):Either[String, String] = {
+  def exercise1(input:String):Either[String, Composition] = {
     input.foldLeft(Composition(0,0,0,0).asRight[String]){
       case (Left(x), _) => Left(x)
       case (Right(z), nuc) => z.add(nuc)
-    }.map(c => c.show)
+    }
   }
 
 }
