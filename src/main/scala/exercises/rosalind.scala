@@ -29,7 +29,7 @@ object rosalind {
       case 'C'=>Right(Composition(0, 1, 0, 0))
       case 'G' => Right(Composition(0, 0, 1, 0))
       case 'T'=> Right(Composition(0,0,0,1))
-      case _ => Left(s"Invalid nucleotide $nt\n")
+      case _ => Left(s"Invalid nucleotide $nt")
     }
   }
 
@@ -45,11 +45,13 @@ object rosalind {
     }
   }
 
-//  def ntCompositionErrors(input:String):Either[String, Composition] = {
-//    input.foldLeft(Composition(0,0,0,0).asRight[String]){
-//      case (Left(x), _) => Left(x) // only one error is carried
-//      case (Right(z), nt) => Right(z + Composition.parse(nt))
-//    }
-//  }
+  def ntCompositionCarryErrors(input:String):Either[String, Composition] = {
+    input.map(Composition.parse).foldLeft(Composition(0,0,0,0).asRight[String]){
+      case (Right(z), Right(b)) => Right(z + b)
+      case (Left(z), Left(x)) => Left(s"$z\n$x")
+      case (Left(x), _) => Left(x)
+      case (_, Left(x)) => Left(x)
+    }
+  }
 
 }
