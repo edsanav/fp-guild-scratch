@@ -8,13 +8,13 @@ object rosalind {
 
 
   def run(args:List[String]):IO[ExitCode] = {
-    val result = args match {
-      case "ex1"::input::_ => ntComposition(input).map(_.show)
+    val result:Either[String, String] = args match {
+      case "ex1"::input::_ => ntCompositionCarryErrors(input).map(_.show)
       case _ => Left("Invalid input")
     }
     result match  {
       case Right(out) => IO.println(out) *> IO(ExitCode.Success)
-      case Left(err) => IO.println(s"Errors while executing exercise: $err") *> IO(ExitCode.Error)
+      case Left(err) => IO.println(s"Errors while executing exercise:\n$err") *> IO(ExitCode.Error)
 
     }
   }
@@ -29,7 +29,7 @@ object rosalind {
       case 'C'=>Right(Composition(0, 1, 0, 0))
       case 'G' => Right(Composition(0, 0, 1, 0))
       case 'T'=> Right(Composition(0,0,0,1))
-      case _ => Left(s"Invalid nucleotide $nt")
+      case _ => Left(s"  Invalid nucleotide $nt")
     }
   }
 
