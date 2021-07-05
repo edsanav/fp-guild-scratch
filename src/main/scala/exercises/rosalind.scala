@@ -33,7 +33,7 @@ object rosalind {
     }
   }
 
-  implicit val compShow: Show[Composition] = (t: Composition) => s"A: ${t.A} C: ${t.C}, G: ${t.G}, T:${t.T}"
+  implicit val CompositionCanShow: Show[Composition] = (t: Composition) => s"A: ${t.A} C: ${t.C}, G: ${t.G}, T:${t.T}"
 
   def ntComposition(input:String):Either[String, Composition] = {
     input.foldLeft(Composition(0,0,0,0).asRight[String]){
