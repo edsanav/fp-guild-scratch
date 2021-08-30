@@ -1,20 +1,20 @@
-package exercises
+package exercises.rosalind
 
 import cats.Show
 import cats.effect.{ExitCode, IO}
 import cats.implicits._
 
-object rosalind {
+object ex1 {
 
 
   def run(args:List[String]):IO[ExitCode] = {
-    val result:Either[String, String] = args match {
-      case "ex1"::input::_ => ntCompositionCarryErrors(input).map(_.show)
+    val result = args match {
+      case input::_ => ntComposition(input).map(_.show)
       case _ => Left("Invalid input")
     }
     result match  {
       case Right(out) => IO.println(out) *> IO(ExitCode.Success)
-      case Left(err) => IO.println(s"Errors while executing exercise:\n$err") *> IO(ExitCode.Error)
+      case Left(err) => IO.println(s"Errors while executing exercise: $err") *> IO(ExitCode.Error)
 
     }
   }
