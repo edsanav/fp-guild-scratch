@@ -1,5 +1,5 @@
 import cats.effect.{ExitCode, IO, IOApp}
-import exercises.rosalind.ex1
+import exercises.rosalind.{ex1, ex2}
 
 object Main extends IOApp {
 
@@ -7,6 +7,7 @@ object Main extends IOApp {
   def launch(args: List[String]): IO[ExitCode] = args match {
     // TODO poor man's CLI version but ¯\_(ツ)_/¯¯
     case "rosalind"::"ex1"::exercise_args => ex1.run(exercise_args)
+    case "rosalind"::"ex2"::exercise_args => ex2.run(exercise_args)
     case _ => IO.println(s"Invalid module to execute: $args") *> IO(ExitCode.Error)
   }
 

@@ -17,7 +17,9 @@ lazy val root = (project in file("."))
       Libraries.catsEffect,
       Libraries.scalaCheck,
       Libraries.scalaTest,
-      Libraries.scalaTestPlus
+      Libraries.scalaTestPlus,
+      Libraries.fs2,
+      Libraries.fs2IO
     )
   )
 
