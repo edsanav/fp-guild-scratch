@@ -10,3 +10,5 @@ Links and resources
 Flatmap sequence computations. Implement pure and flatmap. Follow certain rules
 
 https://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html
+
+// Effects https://youtu.be/30q6BkBv5MY?t=993

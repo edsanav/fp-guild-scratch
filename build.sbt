@@ -8,6 +8,7 @@ ThisBuild / organizationName := "example"
 lazy val root = (project in file("."))
   .settings(
     name := "FP Guild Scratch",
+    trapExit := false, // Avoid exceptions on non 0 exit code
     scalacOptions += "-Ymacro-annotations",
     assembly / assemblyJarName := "fpguild.jar",
     libraryDependencies ++= Seq(
