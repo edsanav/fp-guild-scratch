@@ -1,6 +1,5 @@
 package example.error_handling
 
-import cats.effect.{ExitCode, IO}
 import common._
 
 object exceptions {
@@ -16,23 +15,22 @@ object exceptions {
     c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s))
   }
 
-  def runSpyder(creds:JWT, url: Url):List[Link] = {
+  def spyderYOLO(creds:JWT, url: Url):String = {
     val headers = buildHeaders(creds)
     val content = getContent(url, headers)
-    extractLinks(content)
+    val links = extractLinks(content)
+    links.mkString("\n")
   }
 
-  def runYOLO():IO[ExitCode] = {
-    IO.println(runSpyder(JWT_PARAM, URL_PARAM).mkString("\n")) *> IO(ExitCode.Success)
-  }
-
-  def runOK():IO[ExitCode] = {
+  def spyderCatch(creds:JWT, url:Url):String = {
     try{
-      IO.println(runSpyder(JWT_PARAM, URL_PARAM).mkString("\n")) *> IO(ExitCode.Success)
-    } catch {
-      case e: RuntimeException => IO.println(s"An error ocurred: $e") *> IO(ExitCode.Error)
+      val headers = buildHeaders(creds)
+      val content = getContent(url, headers)
+      val links = extractLinks(content)
+      links.mkString("\n")
+    }catch {
+      case e: RuntimeException => s"An (expected) error ocurred: ${e.getMessage}"
     }
-
   }
 
 }

@@ -1,5 +1,7 @@
 package example.error_handling
 
+import cats.effect.{ExitCode, IO}
+
 object common {
   case class Url(data:String)
   case class JWT(token:String)
@@ -12,4 +14,8 @@ object common {
       |aG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c""".stripMargin)
 
   val URL_PARAM:Url = Url("www.gmail.com")
+
+  def runSpyder(spyder:(JWT, Url) => String):IO[ExitCode] = {
+    IO.println(spyder(JWT_PARAM, URL_PARAM)) *> IO(ExitCode.Success)
+  }
 }

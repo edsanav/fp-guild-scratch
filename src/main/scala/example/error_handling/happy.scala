@@ -1,6 +1,5 @@
 package example.error_handling
 
-import cats.effect.{ExitCode, IO}
 import common._
 
 object happy {
@@ -16,14 +15,11 @@ object happy {
   }
 
 
-  def runSpyder(creds:JWT, url: Url):List[Link] = {
+  def spyder(creds:JWT, url: Url):String = {
     val headers = buildHeaders(creds)
     val content = getContent(url, headers)
-    extractLinks(content)
-  }
-
-  def run():IO[ExitCode] = {
-    IO.println(runSpyder(JWT_PARAM, URL_PARAM).mkString("\n")) *> IO(ExitCode.Success)
+    val links = extractLinks(content)
+    links.mkString("\n")
   }
 
 }

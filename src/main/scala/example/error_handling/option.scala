@@ -1,35 +1,90 @@
 package example.error_handling
 
-import cats.effect.{ExitCode, IO}
 import example.error_handling.common.{Content, Headers, JWT, Link, Url}
+
+import scala.annotation.unused
 
 object option {
 
-  def buildHeaders(jwt:JWT):Headers = Headers(Map("Authorization"->jwt.token))
+  def buildHeaders(jwt:JWT):Option[Headers] = Some(Headers(Map("Authorization"->jwt.token)))
 
-  def getContent(u:Url, h:Headers):Content = {
-    val _ = Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps//www.github.com")
-    throw new RuntimeException("BOOOOOOOOOOOOOOOM No content today")
+  def getContent(u:Url, h:Headers):Option[Content] = {
+    Some(Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps//www.github.com"))
   }
 
-  def extractLinks(c:Content): List[Link] ={
-    c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s))
+  def getContentBroken(@unused u:Url, @unused h:Headers):Option[Content] = None
+
+  def extractLinks(c:Content): Option[List[Link]] ={
+    Some(c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s)))
   }
 
-  def runSpyder(creds:JWT, url: Url):List[Link] = {
+  def imperativeSpyderOK(creds:JWT, url: Url):String = {
+    var links: Option[List[Link]] = None // that "var" there: https://c.tenor.com/JHPSRMwQkCAAAAAC/elmo-hell.gif
     val headers = buildHeaders(creds)
-    val content = getContent(url, headers)
-    extractLinks(content)
+    if (headers.isDefined){
+      val content = getContent(url, headers.get) // never do ".get" directly unless you want a good exception on None
+      if (content.isDefined){
+        links = extractLinks(content.get)
+      }
+    }
+    if (links.isDefined){
+      links.get.mkString("\n")
+    }else{
+      "An error occured during the execution"
+    }
+  }
+
+  def imperativeSpyderKO(creds:JWT, url: Url):String = {
+    var result: Option[String] = None // that "var" there: https://c.tenor.com/JHPSRMwQkCAAAAAC/elmo-hell.gif
+    val headers = buildHeaders(creds)
+    if (headers.isDefined){
+      val content = getContentBroken(url, headers.get) // never do ".get" directly (or you get exceptions on None)
+      if (content.isDefined){
+        val links = extractLinks(content.get)
+        if (links.isDefined){
+          result = Some(links.get.mkString("\n"))
+        }
+      }
+    }
+    if (result.isDefined){
+      result.get
+    }else{
+      "An error occured during the execution"
+    }
+  }
+
+  //TODO link here
+  def monadSpyderOK(creds:JWT, url: Url):String = {
+    val result = for {
+      headers <- buildHeaders(creds)
+      content <- getContent(url, headers)
+      links <- extractLinks(content)
+    } yield links.mkString("\n")
+
+    //  De-sugarized version
+    //  val result = buildHeaders(creds).flatMap(h => getContent(url, h)).flatMap(c => extractLinks(c)).map(_.mkString)
+
+    result match {
+      case Some(result) => result
+      case None =>  "An expected error occured during the execution"
+    }
+  }
+
+  def monadSpyderKO(creds:JWT, url: Url):String =  {
+    val result = for {
+      headers <- buildHeaders(creds)
+      content <- getContentBroken(url, headers)
+      links <- extractLinks(content)
+    } yield links.mkString("\n")
+
+    result match {
+      case Some(result) => result
+      case None => "An expected error occured during the execution"
+    }
   }
 
 
-  def runImperative():IO[ExitCode] = {
-    val token = JWT(
-      """eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ikpv
-        |aG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c""".stripMargin)
-    val url = Url("www.gmail.com")
-    IO.println(runSpyder(token, url).mkString("\n")) *> IO(ExitCode.Success)
-  }
+
 
 
 }
