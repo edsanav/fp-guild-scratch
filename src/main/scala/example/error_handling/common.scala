@@ -18,4 +18,9 @@ object common {
   def runSpyder(spyder:(JWT, Url) => String):IO[ExitCode] = {
     IO.println(spyder(JWT_PARAM, URL_PARAM)) *> IO(ExitCode.Success)
   }
+
+  sealed abstract class SpyderException extends Exception
+  case class ExternalException() extends SpyderException
+  case class ParseException() extends SpyderException
+
 }

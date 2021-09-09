@@ -27,6 +27,8 @@ object Main extends IOApp {
     case "option"::"imperative"::"ko"::_ => runSpyder(option.imperativeSpyderKO)
     case "option"::"monad"::"ok"::_ => runSpyder(option.monadSpyderOK)
     case "option"::"monad"::"ko"::_ => runSpyder(option.monadSpyderKO)
+    case "either"::"ok"::_ => runSpyder(either.eitherOk)
+    case "eihter"::"ko"::_ => runSpyder(either.eitherKO)
     case _ => IO.println(s"Invalid exercise to execute: $args") *> IO(ExitCode.Error)
   }
 

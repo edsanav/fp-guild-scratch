@@ -6,6 +6,12 @@ import scala.annotation.unused
 
 object option {
 
+//  sealed trait Option[+A]
+//  case class Some[+A](value: A) extends Option[A]
+//  case object None extends Option[Nothing]
+
+  //Value or abscence of value
+
   def buildHeaders(jwt:JWT):Option[Headers] = Some(Headers(Map("Authorization"->jwt.token)))
 
   def getContent(u:Url, h:Headers):Option[Content] = {
