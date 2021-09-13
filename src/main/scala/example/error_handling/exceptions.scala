@@ -15,17 +15,17 @@ object exceptions {
     c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s))
   }
 
-  def spyderYOLO(creds:JWT, url: Url):String = {
-    val headers = buildHeaders(creds)
-    val content = getContent(url, headers)
+  def spyderYOLO():String = {
+    val headers = buildHeaders(JWT_PARAM)
+    val content = getContent(URL_PARAM, headers)
     val links = extractLinks(content)
     links.mkString("\n")
   }
 
-  def spyderCatch(creds:JWT, url:Url):String = {
+  def spyderCatch():String = {
     try{
-      val headers = buildHeaders(creds)
-      val content = getContent(url, headers)
+      val headers = buildHeaders(JWT_PARAM)
+      val content = getContent(URL_PARAM, headers)
       val links = extractLinks(content)
       links.mkString("\n")
     }catch {

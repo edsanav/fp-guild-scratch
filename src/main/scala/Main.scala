@@ -1,5 +1,5 @@
 import cats.effect.{ExitCode, IO, IOApp}
-import example.error_handling.common.runSpyder
+import example.error_handling.common.runProgram
 import exercises.rosalind.{ex1, ex2}
 import example.error_handling._
 
@@ -20,15 +20,21 @@ object Main extends IOApp {
   }
 
   def error_handling(args: List[String]): IO[ExitCode] = args match {
-    case "happy"::_ => runSpyder(happy.spyder)
-    case "exceptions"::"ok"::_ => runSpyder(exceptions.spyderCatch)
-    case "exceptions"::"ko"::_ => runSpyder(exceptions.spyderYOLO)
-    case "option"::"imperative"::"ok"::_ => runSpyder(option.imperativeSpyderOK)
-    case "option"::"imperative"::"ko"::_ => runSpyder(option.imperativeSpyderKO)
-    case "option"::"monad"::"ok"::_ => runSpyder(option.monadSpyderOK)
-    case "option"::"monad"::"ko"::_ => runSpyder(option.monadSpyderKO)
-    case "either"::"ok"::_ => runSpyder(either.eitherOk)
-    case "eihter"::"ko"::_ => runSpyder(either.eitherKO)
+    case "happy"::_ => runProgram(happy.spyder)
+    case "exceptions"::"ok"::_ => runProgram(exceptions.spyderCatch)
+    case "exceptions"::"ko"::_ => runProgram(exceptions.spyderYOLO)
+    case "option"::"imperative"::"ok"::_ => runProgram(option.imperativeSpyderOK)
+    case "option"::"imperative"::"ko"::_ => runProgram(option.imperativeSpyderKO)
+    case "option"::"monad"::"ok"::_ => runProgram(option.monadSpyderOK)
+    case "option"::"monad"::"ko"::_ => runProgram(option.monadSpyderKO)
+    case "either"::"form"::"ok"::_ => runProgram(either.eitherFormOK)
+    case "either"::"form"::"ko"::_ => runProgram(either.eitherFormKO)
+    case "either"::"ok"::_ => runProgram(either.eitherOK)
+    case "either"::"ko"::_ => runProgram(either.eitherKO)
+    case "validated"::"ok"::_ => runProgram(validateapp.validatedOK)
+    case "validated"::"ko"::_ => runProgram(validateapp.validatedKO)
+    case "toy"::_ => IO(validateapp.toy()) *> IO(ExitCode.Success)
+
     case _ => IO.println(s"Invalid exercise to execute: $args") *> IO(ExitCode.Error)
   }
 

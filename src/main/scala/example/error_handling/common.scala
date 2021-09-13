@@ -15,8 +15,8 @@ object common {
 
   val URL_PARAM:Url = Url("www.gmail.com")
 
-  def runSpyder(spyder:(JWT, Url) => String):IO[ExitCode] = {
-    IO.println(spyder(JWT_PARAM, URL_PARAM)) *> IO(ExitCode.Success)
+  def runProgram(program:() => String):IO[ExitCode] = {
+    IO.println(program()) *> IO(ExitCode.Success)
   }
 
   sealed abstract class SpyderException extends Exception

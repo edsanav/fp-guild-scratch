@@ -1,6 +1,6 @@
 package example.error_handling
 
-import example.error_handling.common.{Content, Headers, JWT, Link, Url}
+import example.error_handling.common.{Content, Headers, JWT, JWT_PARAM, Link, URL_PARAM, Url}
 
 import scala.annotation.unused
 
@@ -24,11 +24,11 @@ object option {
     Some(c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s)))
   }
 
-  def imperativeSpyderOK(creds:JWT, url: Url):String = {
+  def imperativeSpyderOK():String = {
     var links: Option[List[Link]] = None // that "var" there: https://c.tenor.com/JHPSRMwQkCAAAAAC/elmo-hell.gif
-    val headers = buildHeaders(creds)
+    val headers = buildHeaders(JWT_PARAM)
     if (headers.isDefined){
-      val content = getContent(url, headers.get) // never do ".get" directly unless you want a good exception on None
+      val content = getContent(URL_PARAM, headers.get) // never do ".get" directly unless you want a good exception on None
       if (content.isDefined){
         links = extractLinks(content.get)
       }
@@ -40,11 +40,11 @@ object option {
     }
   }
 
-  def imperativeSpyderKO(creds:JWT, url: Url):String = {
+  def imperativeSpyderKO():String = {
     var result: Option[String] = None // that "var" there: https://c.tenor.com/JHPSRMwQkCAAAAAC/elmo-hell.gif
-    val headers = buildHeaders(creds)
+    val headers = buildHeaders(JWT_PARAM)
     if (headers.isDefined){
-      val content = getContentBroken(url, headers.get) // never do ".get" directly (or you get exceptions on None)
+      val content = getContentBroken(URL_PARAM, headers.get) // never do ".get" directly (or you get exceptions on None)
       if (content.isDefined){
         val links = extractLinks(content.get)
         if (links.isDefined){
@@ -60,15 +60,15 @@ object option {
   }
 
   //TODO link here
-  def monadSpyderOK(creds:JWT, url: Url):String = {
+  def monadSpyderOK():String = {
     val result = for {
-      headers <- buildHeaders(creds)
-      content <- getContent(url, headers)
+      headers <- buildHeaders(JWT_PARAM)
+      content <- getContent(URL_PARAM, headers)
       links <- extractLinks(content)
     } yield links.mkString("\n")
 
     //  De-sugarized version
-    //  val result = buildHeaders(creds).flatMap(h => getContent(url, h)).flatMap(c => extractLinks(c)).map(_.mkString)
+    //  val result = buildHeaders(JWT_PARAM).flatMap(h => getContent(URL_PARAM, h)).flatMap(c => extractLinks(c)).map(_.mkString)
 
     result match {
       case Some(result) => result
@@ -76,10 +76,10 @@ object option {
     }
   }
 
-  def monadSpyderKO(creds:JWT, url: Url):String =  {
+  def monadSpyderKO():String =  {
     val result = for {
-      headers <- buildHeaders(creds)
-      content <- getContentBroken(url, headers)
+      headers <- buildHeaders(JWT_PARAM)
+      content <- getContentBroken(URL_PARAM, headers)
       links <- extractLinks(content)
     } yield links.mkString("\n")
 

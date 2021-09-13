@@ -1,6 +1,6 @@
 package example.error_handling
 
-import example.error_handling.common.{Content, Headers, JWT, Link, Url}
+import example.error_handling.common.{Content, Headers, JWT, JWT_PARAM, Link, URL_PARAM, Url}
 
 import scala.annotation.unused
 import scala.util.{Failure, Success, Try}
@@ -25,10 +25,10 @@ object trym {
     Try(c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s)))
   }
 
-  def tryOk(creds:JWT, url: Url):String = {
+  def tryOk():String = {
     val result  = for {
-      headers <- buildHeaders(creds)
-      content <- getContent(url, headers)
+      headers <- buildHeaders(JWT_PARAM)
+      content <- getContent(URL_PARAM, headers)
       links <- extractLinks(content)
     } yield links.mkString("\n")
     result match {
@@ -37,10 +37,10 @@ object trym {
     }
   }
 
-  def tryKO(creds:JWT, url: Url):String = {
+  def tryKO():String = {
     val result  = for {
-      headers <- buildHeaders(creds)
-      content <- getContentBroken(url, headers)
+      headers <- buildHeaders(JWT_PARAM)
+      content <- getContentBroken(URL_PARAM, headers)
       links <- extractLinks(content)
     } yield links.mkString("\n")
     result match {

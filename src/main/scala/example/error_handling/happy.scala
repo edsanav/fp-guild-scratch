@@ -15,9 +15,9 @@ object happy {
   }
 
 
-  def spyder(creds:JWT, url: Url):String = {
-    val headers = buildHeaders(creds)
-    val content = getContent(url, headers)
+  def spyder():String = {
+    val headers = buildHeaders(JWT_PARAM)
+    val content = getContent(URL_PARAM, headers)
     val links = extractLinks(content)
     links.mkString("\n")
   }
