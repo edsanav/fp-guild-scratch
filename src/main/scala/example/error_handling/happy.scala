@@ -4,7 +4,9 @@ import common._
 
 object happy {
 
-  
+
+  // Fake spyder: Just build headers, connect to URL and extract links of the content
+
   def buildHeaders(jwt:JWT):Headers = Headers(Map("Authorization"->jwt.token))
   
   def getContent(u:Url, h:Headers):Content =
@@ -14,7 +16,7 @@ object happy {
     c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s))
   }
 
-
+  // Everyone is happy with the happy path...
   def spyder():String = {
     val headers = buildHeaders(JWT_PARAM)
     val content = getContent(URL_PARAM, headers)

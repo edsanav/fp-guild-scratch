@@ -6,12 +6,31 @@ import scala.annotation.unused
 
 object option {
 
+  // MONADS!
+  // A monad is:
+  // a) a Burrito
+  // b) a Box
+  // c) Just monoid in the category of endofunctors (whatever that means)
+  // d) Something that provides unit (a constructor), flatMap and follow some rules
+  // e) All of the above are correct (kind of)
+
+  /**
+   * Monads are nothing more than a mechanism to sequence computations around values augmented with some additional
+   * feature. Such features are called effects.
+   * Some well-known effects are managing the nullability of a variable or managing the asynchronicity of its computation.
+   * In Scala, the corresponding monads to these effects are the Option[T] type and the Future[T] type.
+   *
+   * Wrapping of the value inside the effect is done through the unit method
+   * Sequencing of the effects are provide by flatMap (given fa:F[A] and f: A => F[B], return F[B]
+   *
+   * More visual: https://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html#monads
+   */
+
 //  sealed trait Option[+A]
 //  case class Some[+A](value: A) extends Option[A]
 //  case object None extends Option[Nothing]
 
   //Value or abscence of value
-
   def buildHeaders(jwt:JWT):Option[Headers] = Some(Headers(Map("Authorization"->jwt.token)))
 
   def getContent(u:Url, h:Headers):Option[Content] = {
@@ -24,6 +43,8 @@ object option {
     Some(c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s)))
   }
 
+  //...Ok, how can we use Option in an imperative way (without leveraging the monad).
+  // Kind of messy...with...vars... :S
   def imperativeSpyderOK():String = {
     var links: Option[List[Link]] = None // that "var" there: https://c.tenor.com/JHPSRMwQkCAAAAAC/elmo-hell.gif
     val headers = buildHeaders(JWT_PARAM)
@@ -59,7 +80,7 @@ object option {
     }
   }
 
-  //TODO link here
+  // Using monads
   def monadSpyderOK():String = {
     val result = for {
       headers <- buildHeaders(JWT_PARAM)

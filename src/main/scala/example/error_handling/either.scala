@@ -10,7 +10,8 @@ object either {
   //case class Left[+A, +B](value: A) extends Either[A, B]
   //case class Right[+A, +B](value: B) extends Either[A, B]
 
-  //you can define left type
+  // Value or error (can be a custom type)
+
   sealed trait SpyderException
   case class AuthException() extends SpyderException
   case class ExternalException(code:Int) extends SpyderException

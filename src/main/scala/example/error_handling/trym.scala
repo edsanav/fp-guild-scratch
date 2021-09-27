@@ -7,9 +7,17 @@ import scala.util.{Failure, Success, Try}
 
 object trym {
 
-//  sealed trait Try[+T]
-//  case class Failure[+T](exception: Throwable) extends Try[T]
-//  case class Success[+T](value: T) extends Try[T]
+
+  // OK, ok, but absence of value does not provide much information
+  // Plus, what happens if there are parts of the code that throw exceptions, not handled by us
+
+  // Try to the rescue! Effect: value or error (throwable)
+
+  // Bear in mind now the "error" type includes a throwable.
+
+  //  sealed trait Try[+T]
+  //  case class Failure[+T](exception: Throwable) extends Try[T]
+  //  case class Success[+T](value: T) extends Try[T]
 
   // Wrap error that can throw exceptions. Error type is fixed to throwable
 

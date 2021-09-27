@@ -10,7 +10,9 @@ import scala.annotation.unused
 object validateapp {
 
 
-  // When we don't want to catch an error at a time: imagine a form
+  // When we don't want sequence of operations (imagine a form).
+  // Similar to Either but being an applicative
+  // https://medium.com/@lettier/your-easy-guide-to-monads-applicatives-functors-862048d61610
 
   case class Person(name:String, email:String, passport:String)
 
