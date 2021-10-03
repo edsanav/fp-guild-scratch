@@ -36,4 +36,14 @@ object exceptions {
     }
   }
 
+  // Fine, this is an expression and can be translated to the corresponding value...BUT:
+
+  /**
+   * https://blog.rockthejvm.com/idiomatic-error-handling-in-scala/
+   * However, this straightforward approach is rarely the recommended one, for a few big reasons:
+   *  - the structure is cumbersome and hard to read, particularly if the attempted code or the exception-handling code becomes big
+   *  - nesting such structures (even at level 2) become exponentially harder to debug and understand
+   *  - for pure functional programmers, the finally part doing things outside of value computations might cause a small aneurysm
+   */
+
 }

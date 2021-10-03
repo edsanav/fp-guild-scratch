@@ -10,7 +10,19 @@ object either {
   //case class Left[+A, +B](value: A) extends Either[A, B]
   //case class Right[+A, +B](value: B) extends Either[A, B]
 
-  // Value or error (can be a custom type)
+  // Like Try but with error that can be a custom type
+
+  /**
+   * https://blog.rockthejvm.com/idiomatic-error-handling-in-scala/#3-either-this-or-that
+   * Notice how Either is very similar to Try, but Try is particularly focused on successes
+   * (containing a value of any kind) or failures (strictly containing Throwables).
+   * Either can also be thought of in this way:
+   *
+   *  - it’s either an “undesired” Left value (of any type) or a
+   *  - “desired” Right value (of any type).
+   *
+   *  Imagined in this way, Either is a conceptual expansion of Try,
+   *  because in this case, a “failure” can have a type convenient for you */
 
   sealed trait SpyderException
   case class AuthException() extends SpyderException
@@ -54,6 +66,8 @@ object either {
     }
   }
 
+  // What about if we don't want to sequence computations?
+  // What happens if we want to validate a form?
 
   case class Person(name:String, email:String, passport:String)
 

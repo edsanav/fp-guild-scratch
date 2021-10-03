@@ -13,6 +13,20 @@ object validateapp {
   // When we don't want sequence of operations (imagine a form).
   // Similar to Either but being an applicative
   // https://medium.com/@lettier/your-easy-guide-to-monads-applicatives-functors-862048d61610
+  // https://softwaremill.com/applicative-functor/
+  // https://typelevel.org/cats/typeclasses/applicative.html
+
+  /**
+   * https://medium.com/@lettier/your-easy-guide-to-monads-applicatives-functors-862048d61610
+   * "Applicative functor picks up where functor leaves off. Functor lifts/upgrades a function making it capable
+   * of operating on a single effect. Applicative functor allows the sequencing of multiple independent effects.
+   * Functor deals with one effect while applicative functor can deal with multiple independent effects.
+   *
+   * In other words, applicative functor generalizes functor."
+   *
+   * Applicative extends Functor with an ap F[A=>B], F[A] -> F[B] and pure method. A => F[A]
+   * */
+
 
   case class Person(name:String, email:String, passport:String)
 
@@ -60,6 +74,19 @@ object validateapp {
     }
 
   }
+
+  /**
+   * https://blog.rockthejvm.com/idiomatic-error-handling-in-scala/#4-advanced-validated
+   *
+   * If all are valid, their wrapped values will combine as specified by the implicit Semigroup of that type (basically a combination function).
+   * If some are invalid, the result will be an Invalid instance containing the combination of all the errors as specified by the implicit Semigroup for the error type;
+   *
+   * Validated (...) allows us to
+   * combine multiple errors into one instance, thus creating a comprehensive report
+   * process both values and errors, separately or at the same time
+   * convert to/from Either, Try and Option
+   *
+   */
 
   def toy():Unit = {
     val firstS: Validated[String, String] = Invalid("err1")
