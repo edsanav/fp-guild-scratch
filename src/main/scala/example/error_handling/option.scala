@@ -20,7 +20,7 @@ object option {
    * Some well-known effects are managing the nullability of a variable or managing the asynchronicity of its computation.
    * In Scala, the corresponding monads to these effects are the Option[T] type and the Future[T] type.
    *
-   * Wrapping of the value inside the effect is done through the unit method
+   * Wrapping of the value inside the effect is done through the unit method unit: A => F[A] F[A] f: F[A]
    * Sequencing of the effects are provide by flatMap (given fa:F[A] and f: A => F[B], return F[B]
    *
    * More visual: https://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html#monads
@@ -88,8 +88,8 @@ object option {
       links <- extractLinks(content)
     } yield links.mkString("\n")
 
-    //  De-sugarized version
-    //  val result = buildHeaders(JWT_PARAM).flatMap(h => getContent(URL_PARAM, h)).flatMap(c => extractLinks(c)).map(_.mkString)
+    //  De-sugarized version A => F[B]
+    // val result = buildHeaders(JWT_PARAM).flatMap(h => getContent(URL_PARAM, h)).flatMap(c => extractLinks(c)).map(_.mkString)
 
     result match {
       case Some(result) => result

@@ -43,7 +43,7 @@ object either {
   }
 
   def eitherOK():String = {
-    val result  = for {
+    val result:Either[SpyderException, String]  = for {
       headers <- buildHeaders(JWT_PARAM)
       content <- getContent(URL_PARAM, headers)
       links <- extractLinks(content)
