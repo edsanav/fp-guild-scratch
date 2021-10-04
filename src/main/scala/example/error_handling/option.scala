@@ -34,7 +34,7 @@ object option {
   def buildHeaders(jwt:JWT):Option[Headers] = Some(Headers(Map("Authorization"->jwt.token)))
 
   def getContent(u:Url, h:Headers):Option[Content] = {
-    Some(Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps//www.github.com"))
+    Some(Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps://www.github.com"))
   }
 
   def getContentBroken(@unused u:Url, @unused h:Headers):Option[Content] = None

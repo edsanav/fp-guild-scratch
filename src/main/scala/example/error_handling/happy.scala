@@ -10,7 +10,7 @@ object happy {
   def buildHeaders(jwt:JWT):Headers = Headers(Map("Authorization"->jwt.token))
   
   def getContent(u:Url, h:Headers):Content =
-    Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps//www.github.com")
+    Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps://www.github.com")
   
   def extractLinks(c:Content): List[Link] ={
     c.body.split("\n").toList.filter(_.startsWith("https")).map(s=>Link(s))

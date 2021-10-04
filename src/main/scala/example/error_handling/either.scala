@@ -32,7 +32,7 @@ object either {
   def buildHeaders(jwt:JWT):Either[AuthException, Headers] = Right(Headers(Map("Authorization"->jwt.token)))
 
   def getContent(u:Url, h:Headers):Either[ExternalException, Content] = {
-    Right(Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps//www.github.com"))
+    Right(Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps://www.github.com"))
   }
 
   def getContentBroken(@unused u:Url, @unused h:Headers):Either[ExternalException, Content] =

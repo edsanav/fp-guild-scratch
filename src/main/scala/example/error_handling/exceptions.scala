@@ -8,7 +8,7 @@ object exceptions {
 
   // Here we mimick an error occurred remotely. This is not RT
   def getContent(u:Url, h:Headers):Content = {
-    val _ = Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps//www.github.com")
+    val _ = Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps://www.github.com")
     throw new RuntimeException("BOOOOOOOOOOOOOOOM No content today")
   }
 

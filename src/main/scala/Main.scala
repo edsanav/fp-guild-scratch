@@ -27,7 +27,6 @@ object Main extends IOApp {
     case "option"::"imperative"::"ko"::_ => runProgram(option.imperativeSpyderKO)
     case "option"::"monad"::"ok"::_ => runProgram(option.monadSpyderOK)
     case "option"::"monad"::"ko"::_ => runProgram(option.monadSpyderKO)
-    case "option"::"monad"::"ko"::_ => runProgram(option.monadSpyderKO)
     case "try"::"ok"::_ => runProgram(trym.tryOk)
     case "try"::"ko"::_ => runProgram(trym.tryOk)
     case "either"::"form"::"ok"::_ => runProgram(either.eitherFormOK)

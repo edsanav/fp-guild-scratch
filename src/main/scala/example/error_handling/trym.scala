@@ -24,7 +24,7 @@ object trym {
   def buildHeaders(jwt:JWT):Try[Headers] = Try(Headers(Map("Authorization"->jwt.token)))
 
   def getContent(u:Url, h:Headers):Try[Content] = {
-    Try(Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps//www.github.com"))
+    Try(Content(s"Random Stuff from ${u} headers ${h}\nhttps://www.google.com\nhttps://www.github.com"))
   }
 
   def getContentBroken(@unused u:Url, @unused h:Headers):Try[Content] = Try(throw new RuntimeException("BOOOOOOOOM"))
