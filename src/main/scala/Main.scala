@@ -1,7 +1,8 @@
 import cats.effect.{ExitCode, IO, IOApp}
 import example.error_handling.common.runProgram
-import exercises.rosalind.{ex1, ex2}
+import exercises.rosalind.{dna, gc, rna}
 import example.error_handling._
+import exercises.rosalind.gc.loadInput
 
 object Main extends IOApp {
 
@@ -14,8 +15,10 @@ object Main extends IOApp {
   }
 
   def rosalind(args:List[String]): IO[ExitCode] = args match {
-    case "ex1"::exercise_args => ex1.run(exercise_args)
-    case "ex2"::exercise_args => ex2.run(exercise_args)
+    case "dna"::_ => loadInput("rosalind_dna.txt").use(input => dna.run(input))
+    case "rna"::_ => loadInput("rosalind_rna.txt").use(input => rna.run(input))
+    case "rna"::exercise_args =>
+    case "gc"::exercise_args => gc.run(exercise_args)
     case _ => IO.println(s"Invalid exercise to execute: $args") *> IO(ExitCode.Error)
   }
 
