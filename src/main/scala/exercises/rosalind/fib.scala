@@ -9,7 +9,7 @@ import scala.util.Try
 object fib {
 
   def run(@unused input:List[String]):IO[ExitCode] = {
-    IO.println(compute3(5,3)) *> IO(ExitCode.Success)
+    IO.println(computeDead(6,3)) *> IO(ExitCode.Success)
 //    input match  {
 //      case nS::kS::_ =>
 //        IO.fromEither(parse(nS,kS)
@@ -58,17 +58,16 @@ object fib {
     inner(1, 0, 1)
   }
 
-  def computeDead(N:Int, M:Int):Int = {
+  def computeDead(N:Int, M:Int, K:Int=0):Int = {
 
-    @tailrec
     def inner(totalMonth:Int, remainingMonths:Int, adults:Int, children:Int):Int = {
       (totalMonth, remainingMonths) match {
         case (_, 0) => 0
         case (N, _) => adults+children
-        case _ => inner(totalMonth+1, remainingMonths-1, adults, children) + inner(month+1, children, adults*K)
+        case _ => inner(totalMonth+1, remainingMonths-1, adults, children) + inner(totalMonth+1, remainingMonths-1, children, 0) + inner(totalMonth+1, remainingMonths-1, children, adults*K)
       }
     }
-    inner(1, 0, 1)
+    inner(1, M, 0, 1)
   }
 
   /*
