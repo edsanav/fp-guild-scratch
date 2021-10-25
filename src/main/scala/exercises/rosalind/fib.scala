@@ -62,8 +62,8 @@ object fib {
 
     def inner(totalMonth:Int, remainingMonths:Int, adults:Int, children:Int):Int = {
       (totalMonth, remainingMonths) match {
-        case (_, 0) => 0
         case (N, _) => adults+children
+        case (_, 0) => 0
         case _ => inner(totalMonth+1, remainingMonths-1, adults, children) + inner(totalMonth+1, remainingMonths-1, children, 0) + inner(totalMonth+1, remainingMonths-1, children, adults*K)
       }
     }
