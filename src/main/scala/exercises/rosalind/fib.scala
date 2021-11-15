@@ -28,6 +28,13 @@ object fib {
     ).tupled
   }
 
+  def parseToEither(nStr:String, kStr:String):Either[String, (Int,Int)] = {
+    (
+      getMessage(Try(nStr.toInt)),
+      getMessage(Try(kStr.toInt))
+      ).tupled
+  }
+
   def getMessage[A](t:Try[A]):Either[String,A] = {
     t match {
       case Failure(exc) => Left(exc.getMessage)
