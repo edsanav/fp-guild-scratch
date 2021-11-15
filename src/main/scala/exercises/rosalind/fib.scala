@@ -10,10 +10,10 @@ object fib {
 
   def run(@unused input:List[String]):IO[ExitCode] = {
     input match  {
-      case nS::kS::_ =>
-        IO.fromEither(parse(nS,kS)
-          .map{case (n,k) => compute(n,k)})
-          .map(println(_)) *> IO(ExitCode.Success)
+      case nS::kS::_ => parse(nS,kS) match {
+        case Left(th) => IO.println("Error parsing: "+th.getMessage) *> IO(ExitCode.Error)
+        case Right((n,k)) => IO.println("result is "+compute(n,k).toString) *> IO(ExitCode.Success)
+      }
       case _ => IO(ExitCode.Error)
     }
   }
