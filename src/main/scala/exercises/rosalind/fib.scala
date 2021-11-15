@@ -1,28 +1,38 @@
 package exercises.rosalind
 
+import cats.data.Validated
+import cats.data.Validated.{Invalid, Valid}
 import cats.effect.{ExitCode, IO}
 import cats.implicits._
 
+
 import scala.annotation.{tailrec, unused}
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 object fib {
 
   def run(@unused input:List[String]):IO[ExitCode] = {
     input match  {
       case nS::kS::_ => parse(nS,kS) match {
-        case Left(th) => IO.println("Error parsing: "+th.getMessage) *> IO(ExitCode.Error)
-        case Right((n,k)) => IO.println("result is "+compute(n,k).toString) *> IO(ExitCode.Success)
+        case Invalid(th) => IO.println("Error parsing: "+th) *> IO(ExitCode.Error)
+        case Valid((n,k)) => IO.println("result is "+compute(n,k).toString) *> IO(ExitCode.Success)
       }
       case _ => IO(ExitCode.Error)
     }
   }
 
-  def parse(nStr:String, kStr:String):Either[Throwable, (Int,Int)] = {
+  def parse(nStr:String, kStr:String):Validated[String, (Int,Int)] = {
     (
-      Try(nStr.toInt),
-      Try(kStr.toInt)
-    ).mapN((x,y) => (x,y)).toEither
+      getMessage(Try(nStr.toInt)).toValidated,
+      getMessage(Try(kStr.toInt)).toValidated
+    ).tupled
+  }
+
+  def getMessage[A](t:Try[A]):Either[String,A] = {
+    t match {
+      case Failure(exc) => Left(exc.getMessage)
+      case Success(value) => Right(value)
+    }
   }
 
   def compute(N:Int, K:Int):Int = {
