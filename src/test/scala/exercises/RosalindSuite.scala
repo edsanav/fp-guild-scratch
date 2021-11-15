@@ -1,6 +1,6 @@
 package exercises
 
-import exercises.rosalind.ex1._
+import exercises.rosalind.dna._
 import org.scalacheck.Prop.forAllNoShrink
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.funsuite.AnyFunSuite

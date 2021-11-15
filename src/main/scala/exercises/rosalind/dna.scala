@@ -4,18 +4,13 @@ import cats.Show
 import cats.effect.{ExitCode, IO}
 import cats.implicits._
 
-object ex1 {
+object dna {
 
 
-  def run(args:List[String]):IO[ExitCode] = {
-    val result = args match {
-      case input::_ => ntComposition(input).map(_.show)
-      case _ => Left("Invalid input")
-    }
-    result match  {
+  def run(input:String):IO[ExitCode] = {
+      ntComposition(input).map(_.show) match  {
       case Right(out) => IO.println(out) *> IO(ExitCode.Success)
       case Left(err) => IO.println(s"Errors while executing exercise: $err") *> IO(ExitCode.Error)
-
     }
   }
 
@@ -24,12 +19,14 @@ object ex1 {
   }
 
   object Composition {
-    def parse(nt:Char):Either[String, Composition] = nt match {
+    def parse(nt:Char):Either[String, Composition] = {
+      nt match {
       case 'A' => Right(Composition(1, 0, 0, 0))
       case 'C'=>Right(Composition(0, 1, 0, 0))
       case 'G' => Right(Composition(0, 0, 1, 0))
       case 'T'=> Right(Composition(0,0,0,1))
       case _ => Left(s"  Invalid nucleotide $nt")
+    }
     }
   }
 

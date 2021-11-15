@@ -6,7 +6,7 @@ import cats.effect.{ExitCode, IO, Resource}
 import scala.io.Source
 
 // Naive implementation (does not process errors)
-object ex2 {
+object gc {
   def run(args:List[String]):IO[ExitCode] = {
     args match {
       case input::_ => loadInput(input).use{rawInput=>
@@ -24,7 +24,7 @@ object ex2 {
       IO(Source.fromResource(path))
     } { source =>
       IO(source.close()).handleErrorWith(_ => IO.unit)
-    }.map(source => source.mkString)
+    }.map(source => source.mkString.strip())
 
   def parseSequences(s:String): Map[String, String] = {
     s
